@@ -176,16 +176,19 @@ onMounted(() => {
 const qrContent = computed(() => makeVietQRContent({
   bankId: bankId.value,
   accountId: accountId.value,
-  amount: parseInt(amount.value?.replace(/\D/g, '')),
-  description: description.value.trim(),
+  amount: amount.value ? parseInt(amount.value.replace(/\D/g, '')) || undefined : undefined,
+  description: description.value?.trim() || undefined,
 }))
 
 const qrSVG = computed(() => {
+  if (!isFormValid.value) return '';
+  
+  console.log('QR Content:', qrContent.value); // Debug log
   const qr = new QRCode({
     content: qrContent.value,
-    padding: 5,
-    width: 300,
-    height: 300,
+    padding: 4,
+    width: 256,
+    height: 256,
     color: "#000000",
     background: "#ffffff",
     ecl: "M"
@@ -360,7 +363,7 @@ const downloadImage = async () => {
               <div v-if="isFormValid" class="space-y-4">
                 <!-- QR Code -->
                 <div class="bg-white p-6 rounded-lg border border-gray-100" ref="qrNode">
-                  <div v-html="qrSVG" class="qr-image w-64 h-64 mx-auto"></div>
+                  <div v-html="qrSVG" class="qr-image w-64 h-64 mx-auto flex items-center justify-center"></div>
                   <div class="mt-4 space-y-1">
                     <div v-if="accountName.trim()" class="text-gray-800 font-medium">{{ accountName.trim() }}</div>
                     <div class="text-gray-600 text-sm">{{ accountId }}</div>
