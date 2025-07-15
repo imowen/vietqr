@@ -187,8 +187,8 @@ const qrSVG = computed(() => {
   const qr = new QRCode({
     content: qrContent.value,
     padding: 4,
-    width: 256,
-    height: 256,
+    width: 300,
+    height: 300,
     color: "#000000",
     background: "#ffffff",
     ecl: "M"
@@ -353,7 +353,7 @@ const downloadImage = async () => {
 
         <!-- Right Column - QR Preview -->
         <div class="lg:flex lg:justify-center">
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 h-fit">
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 h-fit w-full max-w-sm mx-auto lg:max-w-none">
             <div class="flex items-center space-x-2 mb-4">
               <span class="text-xl">📱</span>
               <h3 class="text-lg font-bold text-gray-800">生成结果</h3>
@@ -362,16 +362,16 @@ const downloadImage = async () => {
             <div class="text-center">
               <div v-if="isFormValid" class="space-y-4">
                 <!-- QR Code -->
-                <div class="bg-white p-6 rounded-lg border border-gray-100" ref="qrNode">
-                  <div v-html="qrSVG" class="qr-image w-64 h-64 mx-auto flex items-center justify-center"></div>
-                  <div class="mt-4 space-y-1">
-                    <div v-if="accountName.trim()" class="text-gray-800 font-medium">{{ accountName.trim() }}</div>
-                    <div class="text-gray-600 text-sm">{{ accountId }}</div>
-                    <div v-if="amount" class="text-gray-600 text-sm">{{ amount }} VND</div>
+                <div class="bg-white p-4 sm:p-6 rounded-lg border border-gray-100" ref="qrNode">
+                  <div v-html="qrSVG" class="qr-image w-full max-w-xs sm:max-w-sm aspect-square mx-auto flex items-center justify-center"></div>
+                  <div class="mt-3 space-y-1">
+                    <div v-if="accountName.trim()" class="text-gray-800 font-semibold text-base sm:text-lg">{{ accountName.trim() }}</div>
+                    <div class="text-gray-700 text-sm sm:text-base font-medium">{{ accountId }}</div>
+                    <div v-if="amount" class="text-gray-700 text-sm sm:text-base font-medium">{{ amount }} VND</div>
                   </div>
                 </div>
               </div>
-              <div v-else class="flex items-center justify-center h-80 border-2 border-dashed border-gray-300 rounded-lg">
+              <div v-else class="flex items-center justify-center h-64 sm:h-80 border-2 border-dashed border-gray-300 rounded-lg">
                 <div class="text-center text-gray-500">
                   <div class="text-4xl mb-2">📱</div>
                   <p class="text-sm">请填写完整信息</p>
@@ -389,11 +389,17 @@ const downloadImage = async () => {
 <style scoped>
 .qr-image {
   image-rendering: pixelated;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .qr-image svg {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 </style>
 
